@@ -933,7 +933,7 @@ def clip_tensors_by_global_norm(input_tensors, max_norm=1.0, global_norm=None, m
 
         else:
             for t in input_tensors:
-                t.detach().mul_(clip_coef)
+                t.                t.detach()..mul_(clip_coefclip_coef)
     return global_norm
 
 
@@ -959,6 +959,8 @@ def all_gather_into_tensor_dp_groups(groups_flat, partitioned_param_groups, dp_p
             # no groups share optimizer states
             # pipeline parallel with bf16 will default call this even if dp size = 1.
             continue
+        # PyTorch文档：https://pytorch.org/docs/stable/distributed.html#torch.distributed.all_gather_into_tensor
+        # 参数默认async_op=False，所以此处allgather使用的是非异步算子
         dist.all_gather_into_tensor(group_flat, partitioned_params[partition_id], dp_process_group[group_id])
 
 
