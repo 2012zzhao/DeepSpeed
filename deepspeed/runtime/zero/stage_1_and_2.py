@@ -349,9 +349,10 @@ class DeepSpeedZeroOptimizer(ZeROOptimizer):
                 meta_tensors.append(torch.zeros_like(param.cpu_data, device="meta"))
             self.round_robin_bit16_meta.append(meta_tensors)
 
+            # 把优化器参数（round_robin_bit16_groups）对齐到2DP的倍数并展平
             # create flat buffer in CPU
-            flattened_buffer = self.flatten_dense_tensors_aligned(
-                self.round_robin_bit16_groups[i],
+            flattened_buffer = self.fer = self.flatten_dense_tensors_aligned(
+                self.                self.round_robin_bit16_groups[ii],,
                 self.nccl_start_alignment_factor * dist.get_world_size(group=self.real_dp_process_group[i]),
                 use_cpu_data=True)
 
